@@ -4,9 +4,10 @@ ApplicationWindow {
     visible: true
     width: 400
     height: 600
-    title: "HelloApp"
+    title: "202020"
 
     property string currTime: "00:00:00" // A variable for storing current time (from our python file)
+    property QtObject backend // a variable for receiving our backend object
     Rectangle {
         anchors.fill: parent
         Image {
@@ -29,6 +30,14 @@ ApplicationWindow {
                 font.pixelSize: 24
                 color: "white"
             }
+        }
+    }
+
+    Connections {
+        target: backend
+
+        function onUpdated(msg) {
+            currTime = msg;
         }
     }
 }
