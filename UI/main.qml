@@ -5,6 +5,8 @@ ApplicationWindow {
     width: 400
     height: 600
     title: "HelloApp"
+
+    property string currTime: "00:00:00" // A variable for storing current time (from our python file)
     Rectangle {
         anchors.fill: parent
         Image {
@@ -18,12 +20,12 @@ ApplicationWindow {
             color: "transparent"
             Text {
                 anchors {
-                    bottom: parent.bottom
-                    bottomMargin: 12
-                    left: parent.left
-                    leftMargin: 12
+                    top: parent.top
+                    topMargin: 12
+                    right: parent.right
+                    rightMargin: 12
                 }
-                text: "16:38:33"
+                text: currTime //earlier we had specified a string : '2123'
                 font.pixelSize: 24
                 color: "white"
             }
