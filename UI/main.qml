@@ -4,7 +4,16 @@ ApplicationWindow {
     visible: true
     width: 400
     height: 600
+
+    //<Frameless stuff>
+    x: screen.desktopAvailableWidth - width - 12
+    y: screen.desktopAvailableHeight - height - 48
+    
+    flags: Qt.FramelessWindowHint | Qt.Window
+    //</Frameless stuff end>
+
     title: "202020"
+
 
     property string currTime: "00:00:00" // A variable for storing current time (from our python file)
 
