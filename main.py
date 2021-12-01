@@ -14,12 +14,25 @@ class Backend(QObject):
         QObject.__init__(self)
 
     updated = pyqtSignal(str, arguments=['updater'])
+    secondUpdated = pyqtSignal(str,arguments=['countdownUpdater']) # Break countdown
+    breakTextUpdated = pyqtSignal(str,arguments=['breakTextUpdater']) # Break text
+    promptTextUpdated = pyqtSignal(str,arguments=['breakPromptUpdater']) # Break prompt
     
     def updater(self, curr_time):
         self.updated.emit(curr_time)
+
+    def countdownUpdater(self, count):
+        self.secondUpdated.emit(count) # break countdown
+
+    def breakTextUpdater(self, text):
+        self.breakTextUpdated.emit(text) # break text
+
+    def breakPromptUpdater(self, promptText):
+        self.promptTextUpdated.emit(promptText) # break prompt
+        
       
     def bootUp(self):
-        timeInitial = time.time()
+        
 
         t_thread = threading.Thread(target=self._bootUp)
         t_thread.daemon = True
@@ -29,6 +42,7 @@ class Backend(QObject):
         while True:
             curr_time = strftime("%H:%M:%S", localtime())
             self.updater(curr_time)
+            
             sleep(0.1)
 
     def do2020(self):
@@ -41,31 +55,48 @@ class Backend(QObject):
         eyePath = "./Images/eye.jpg"
         normalPath = "./Images/image1.jpg"
 
+        timeInitial = time.time()
+
         while True:
             engine.rootObjects()[0].setProperty('imagePath', eyePath)
-            toast.show_toast("Hey there!","Look away at something 20 metres away for 20 seconds. Thanks! And good luck with your work :)",icon_path='./icon.ico',duration=5, threaded=True)
+            toast.show_toast("Hey there!","Look away at something 20 metres away for 20 seconds. Thanks! And good luck with your work :)",icon_path='./icon.ico',duration=20, threaded=True)
 
             print("Displayed toast")
             while toast.notification_active(): 
                 time.sleep(0.1)
                 engine.rootObjects()[0].setProperty('imagePath', eyePath)
+                self.breakTextUpdater("transparent")
+                self.breakPromptUpdater("white")
 
             print("Toast finished")
+            self.breakPromptUpdater("transparent")
             engine.rootObjects()[0].setProperty('imagePath', normalPath)
+            # self.countDown() #Experimental countdown stuff
+            sleep(24)
+    
+    def countDown(self):
+        for i in range(29,0,-1):
+            if i <=25:
+                self.countdownUpdater(str(i)) # break countdown
+                self.breakTextUpdater("white") # update break text to white
+            else:
+                self.breakTextUpdater("transparent") # update break text to transparent
+            time.sleep(1)
+            print(i)
+            
 
-            sleep(14)
 
 #Time stuff
 curr_time = strftime("%H:%M:%S", localtime())
 
 
 #UI hook stuff
+
 app = QGuiApplication(sys.argv)
 engine = QQmlApplicationEngine()
 engine.quit.connect(app.quit)
 engine.load('./UI/main.qml')
 back_end = Backend()
-engine.rootObjects()[0].setProperty('backend', back_end)
 engine.rootObjects()[0].setProperty('backend', back_end)
 back_end.bootUp()
 back_end.do2020()
