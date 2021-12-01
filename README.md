@@ -1,5 +1,5 @@
 # Python 202020
-A python made application to remind user to do 20-20-20; For 20 seconds, look at something 20 metres away every 20 minutes (to rest your eyes and keep them working well over time)
+A python made application to remind the user to follow 20-20-20; For 20 seconds, look at something 20 metres away every 20 minutes (to rest your eyes and keep them working well over time)
 
 
 # Prerequisites
@@ -32,5 +32,9 @@ pyinsaller main.spec
 # How does it look
 
 ![alt text](./Demo/ActiveWONotification.png)
+
+With toast notification:
 ![alt text](./Demo/ActiveWithNotification.png)
+
+When it's not time for the break:
 ![alt text](./Demo/NotActive.png)
