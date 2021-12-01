@@ -8,12 +8,13 @@ ApplicationWindow {
 
     property string currTime: "00:00:00" // A variable for storing current time (from our python file)
     property QtObject backend // a variable for receiving our backend object
+    property string imagePath: "./Images/image1.jpg"
     Rectangle {
         anchors.fill: parent
         Image {
             sourceSize.width: parent.width
             sourceSize.height: parent.height
-            source: "./Images/image1.jpg"
+            source: imagePath
             fillMode: Image.PreserveAspectCrop
         }
         Rectangle {

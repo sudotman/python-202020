@@ -38,10 +38,22 @@ class Backend(QObject):
 
     def _do2020(self):
         toast = ToastNotifier()
+        eyePath = "./Images/eye.jpg"
+        normalPath = "./Images/image1.jpg"
+
         while True:
-            toast.show_toast("Hey there!","Look away at something 20 metres away for 20 seconds. Thanks! And good luck with your work :)",icon_path='./icon.ico',duration=25)
+            engine.rootObjects()[0].setProperty('imagePath', eyePath)
+            toast.show_toast("Hey there!","Look away at something 20 metres away for 20 seconds. Thanks! And good luck with your work :)",icon_path='./icon.ico',duration=5, threaded=True)
+
             print("Displayed toast")
-            sleep(7)
+            while toast.notification_active(): 
+                time.sleep(0.1)
+                engine.rootObjects()[0].setProperty('imagePath', eyePath)
+
+            print("Toast finished")
+            engine.rootObjects()[0].setProperty('imagePath', normalPath)
+
+            sleep(14)
 
 #Time stuff
 curr_time = strftime("%H:%M:%S", localtime())
@@ -53,6 +65,7 @@ engine = QQmlApplicationEngine()
 engine.quit.connect(app.quit)
 engine.load('./UI/main.qml')
 back_end = Backend()
+engine.rootObjects()[0].setProperty('backend', back_end)
 engine.rootObjects()[0].setProperty('backend', back_end)
 back_end.bootUp()
 back_end.do2020()
