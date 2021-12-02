@@ -7,6 +7,7 @@ import threading
 from time import sleep
 import time
 from win10toast import ToastNotifier
+import random
 
 # Creating QObject subclass to be able to utilize python threads to send signals to our qt frontend
 class Backend(QObject):
@@ -53,9 +54,9 @@ class Backend(QObject):
     def _do2020(self):
         toast = ToastNotifier()
         eyePath = "./Images/eye.jpg"
-        normalPath = "./Images/image1.jpg"
+        normalPath = "./Images/image"
+        randomGen = random.randint(1,11)
 
-        timeInitial = time.time()
 
         while True:
             engine.rootObjects()[0].setProperty('imagePath', eyePath)
@@ -70,9 +71,9 @@ class Backend(QObject):
 
             print("Toast finished")
             self.breakPromptUpdater("transparent")
-            engine.rootObjects()[0].setProperty('imagePath', normalPath)
+            engine.rootObjects()[0].setProperty('imagePath', normalPath + str(random.randint(1,11)) + ".jpg")
             # self.countDown() #Experimental countdown stuff
-            sleep(24)
+            sleep(1200)
     
     def countDown(self):
         for i in range(29,0,-1):
