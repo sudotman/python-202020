@@ -46,6 +46,7 @@ ApplicationWindow {
                 }
                 text: currTime //earlier we had specified a string : '2123'
                 font.pixelSize: 24
+                font.family: "Helvetica"
                 color: "white"
             }
             
