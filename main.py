@@ -18,6 +18,8 @@ class Backend(QObject):
     secondUpdated = pyqtSignal(str,arguments=['countdownUpdater']) # Break countdown
     breakTextUpdated = pyqtSignal(str,arguments=['breakTextUpdater']) # Break text
     promptTextUpdated = pyqtSignal(str,arguments=['breakPromptUpdater']) # Break prompt
+
+    bringToFrontUpdated = pyqtSignal(str,arguments=['bringToFrontUpdater']) # Break prompt
     
     def updater(self, curr_time):
         self.updated.emit(curr_time)
@@ -30,6 +32,9 @@ class Backend(QObject):
 
     def breakPromptUpdater(self, promptText):
         self.promptTextUpdated.emit(promptText) # break prompt
+    
+    def bringToFrontUpdater(self, promptText):
+        self.bringToFrontUpdated.emit(promptText) # break prompt
         
       
     def bootUp(self):
@@ -53,6 +58,7 @@ class Backend(QObject):
 
     def _do2020(self):
         toast = ToastNotifier()
+        toast2 = ToastNotifier()
         eyePath = "./Images/eye.jpg"
         normalPath = "./Images/image"
         randomGen = random.randint(1,11)
@@ -61,6 +67,7 @@ class Backend(QObject):
         while True:
             engine.rootObjects()[0].setProperty('imagePath', eyePath)
             toast.show_toast("Hey there!","Look away at something 20 metres away for 20 seconds. Thanks! And good luck with your work :)",icon_path='./icon.ico',duration=20, threaded=True)
+            self.bringToFrontUpdater("aight")
 
             print("Displayed toast")
             while toast.notification_active(): 
@@ -72,6 +79,7 @@ class Backend(QObject):
             print("Toast finished")
             self.breakPromptUpdater("transparent")
             engine.rootObjects()[0].setProperty('imagePath', normalPath + str(random.randint(1,11)) + ".jpg")
+            toast2.show_toast("Your eyes are well rested.","The break is over. Good luck fren.",icon_path='./icon.ico',duration=10, threaded=False)
             # self.countDown() #Experimental countdown stuff
             sleep(1200)
     

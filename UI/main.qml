@@ -1,5 +1,7 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Window 2.15
+
 ApplicationWindow {
     visible: true
     width: 400
@@ -93,6 +95,9 @@ ApplicationWindow {
         }
         function onPromptTextUpdated(msg){
             breakPromptColor = msg;
+        }
+        function onBringToFrontUpdated(msg){
+            raise();
         }
     }
 }
