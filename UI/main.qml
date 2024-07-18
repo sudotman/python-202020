@@ -3,80 +3,104 @@ import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 
 ApplicationWindow {
-    visible: true
-    width: 400
-    height: 600
 
-    //<Frameless stuff>
-    x: screen.desktopAvailableWidth - width - 12
-    y: screen.desktopAvailableHeight - height - 48
-    
+    id: rootWindow
+    visible: true
+    width: 200
+    height: 300
+
     flags: Qt.FramelessWindowHint | Qt.Window
-    //</Frameless stuff end>
 
     title: "202020"
 
-
-    property string currTime: "00:00:00" // A variable for storing current time (from our python file)
-
-    //Break countdown stuff
+    property string currTime: "00:00:00"
     property string breakCountdown: "00"
     property string breakCountdownText: 'Break in: ' + breakCountdown +' seconds'
     property string breakCountdownColor: "transparent"
     property string breakPromptColor: "white"
-
-    property QtObject backend // a variable for receiving our backend object
+    property QtObject backend
     property string imagePath: "./Images/image1.jpg"
-    
+
+    Component.onCompleted: {
+        x = Screen.width - width - 20
+        y = Screen.height - height - 20
+    }
+
     Rectangle {
-        anchors.fill: parent
+        id: mainRect
+        width: parent.width
+        height: parent.height
+        color: "transparent"
+
+        MouseArea {
+    id: dragArea
+    anchors.fill: parent
+    cursorShape: Qt.OpenHandCursor
+
+    property int dragStartX: 0
+    property int dragStartY: 0
+
+    onPressed: {
+        dragStartX = mouse.x;
+        dragStartY = mouse.y;
+        dragArea.cursorShape = Qt.ClosedHandCursor;
+    }
+
+    onReleased: {
+        dragArea.cursorShape = Qt.OpenHandCursor;
+        rootWindow.x += mouse.x - dragStartX;
+        rootWindow.y += mouse.y - dragStartY;
+    }
+
+    onPositionChanged: {
+        rootWindow.x += mouse.x - dragStartX;
+        rootWindow.y += mouse.y - dragStartY;
+        dragStartX = mouse.x;
+        dragStartY = mouse.y;
+    }
+}
+
         Image {
-            sourceSize.width: parent.width
-            sourceSize.height: parent.height
+            anchors.fill: parent
             source: imagePath
             fillMode: Image.PreserveAspectCrop
         }
-        Rectangle {
-            anchors.fill: parent
-            color: "transparent"
-            Text {
-                anchors {
-                    top: parent.top
-                    topMargin: 12
-                    right: parent.right
-                    rightMargin: 12
-                }
-                text: currTime //earlier we had specified a string : '2123'
-                font.pixelSize: 24
-                font.family: "Helvetica"
-                color: "white"
-            }
-            
-            Text {
-                anchors {
-                    top: parent.top
-                    topMargin: 14
 
-                    left: parent.left
-                    leftMargin: 14
-                }
-                text: breakCountdownText //earlier we had specified a string : '2123'
-                font.pixelSize: 20
-                color: breakCountdownColor
+        Text {
+            anchors {
+                top: parent.top
+                topMargin: 12
+                right: parent.right
+                rightMargin: 12
             }
+            text: currTime
+            font.pixelSize: 24
+            font.family: "Helvetica"
+            color: "white"
+        }
 
-            Text {
-                anchors {
-                    top: parent.top
-                    topMargin: 14
-
-                    left: parent.left
-                    leftMargin: 14
-                }
-                text: "Rest your eyes :)" //earlier we had specified a string : '2123'
-                font.pixelSize: 20
-                color: breakPromptColor
+        Text {
+            anchors {
+                top: parent.top
+                topMargin: 14
+                left: parent.left
+                leftMargin: 14
             }
+            text: breakCountdownText
+            font.pixelSize: 20
+            color: breakCountdownColor
+        }
+
+        Text {
+            anchors {
+                bottom: parent.bottom
+                bottomMargin: 14
+                left: parent.left
+                leftMargin: 14
+            }
+            text: "Rest your eyes :)"
+            font.pixelSize: 14
+            color: breakPromptColor
         }
     }
 
@@ -89,7 +113,6 @@ ApplicationWindow {
         function onSecondUpdated(msg){
             breakCountdown = msg;
         }
-
         function onBreakTextUpdated(msg){
             breakCountdownColor = msg;
         }
@@ -101,22 +124,3 @@ ApplicationWindow {
         }
     }
 }
-
-
-// Previous Obsolete Renditions:
-
-// A basic window:
-
-// import QtQuick 2.15
-// import QtQuick.Controls 2.15
-// ApplicationWindow {
-//     visible: true
-//     width: 600
-//     height: 500
-//     title: "202020"
-//     Text {
-//         anchors.centerIn: parent
-//         text: "Hey there :)"
-//         font.pixelSize: 24
-//     }
-// }

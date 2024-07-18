@@ -61,12 +61,12 @@ class Backend(QObject):
         toast2 = ToastNotifier()
         eyePath = "./Images/eye.jpg"
         normalPath = "./Images/image"
-        randomGen = random.randint(1,11)
+        randomGen = random.randint(1,8)
 
 
         while True:
             engine.rootObjects()[0].setProperty('imagePath', eyePath)
-            toast.show_toast("Hey there!","Look away at something 20 metres away for 20 seconds. Thanks! And good luck with your work :)",icon_path='./icon.ico',duration=20, threaded=True)
+            toast.show_toast("Hey there - 202020","Look away at something 20 metres away for 20 seconds. See you in a while.",icon_path='./icon.ico',duration=20, threaded=True)
             self.bringToFrontUpdater("aight")
 
             print("Displayed toast")
@@ -78,8 +78,8 @@ class Backend(QObject):
 
             print("Toast finished")
             self.breakPromptUpdater("transparent")
-            engine.rootObjects()[0].setProperty('imagePath', normalPath + str(random.randint(1,11)) + ".jpg")
-            toast2.show_toast("Your eyes are well rested.","The break is over. Good luck fren.",icon_path='./icon.ico',duration=10, threaded=False)
+            engine.rootObjects()[0].setProperty('imagePath', normalPath + str(random.randint(1,8)) + ".jpg")
+            toast2.show_toast("Your eyes are well rested.","The break is over. Good luck with the work!",icon_path='./icon.ico',duration=10, threaded=False)
             # self.countDown() #Experimental countdown stuff
             sleep(1200)
     
