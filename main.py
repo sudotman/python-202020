@@ -3,6 +3,7 @@ from time import localtime, strftime, gmtime # For retreiving string based time
 from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtQml import QQmlApplicationEngine
 from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtGui import QIcon
 import threading
 from time import sleep
 import time
@@ -66,7 +67,7 @@ class Backend(QObject):
 
         while True:
             engine.rootObjects()[0].setProperty('imagePath', eyePath)
-            toast.show_toast("Hey there - 202020","Look away at something 20 metres away for 20 seconds. See you in a while.",icon_path='./icon.ico',duration=20, threaded=True)
+            toast.show_toast("Hey there - 202020","Look away at something 20 metres away for 20 seconds. See you in a while.",icon_path='./UI/icon.ico',duration=20, threaded=True)
             self.bringToFrontUpdater("aight")
 
             print("Displayed toast")
@@ -79,7 +80,7 @@ class Backend(QObject):
             print("Toast finished")
             self.breakPromptUpdater("transparent")
             engine.rootObjects()[0].setProperty('imagePath', normalPath + str(random.randint(1,8)) + ".jpg")
-            toast2.show_toast("Your eyes are well rested.","The break is over. Good luck with the work!",icon_path='./icon.ico',duration=10, threaded=False)
+            toast2.show_toast("Your eyes are well rested.","The break is over. Good luck with the work!",icon_path='./UI/icon.ico',duration=10, threaded=False)
             # self.countDown() #Experimental countdown stuff
             sleep(1200)
     
@@ -102,6 +103,8 @@ curr_time = strftime("%H:%M:%S", localtime())
 #UI hook stuff
 
 app = QGuiApplication(sys.argv)
+
+app.setWindowIcon(QIcon('./UI/icon.ico'))
 engine = QQmlApplicationEngine()
 engine.quit.connect(app.quit)
 engine.load('./UI/main.qml')
