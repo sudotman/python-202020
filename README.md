@@ -25,7 +25,7 @@ python main.py
 # Building
 
 ```python
-pyi-makespec main.py
+pyi-makespec --onefile --icon=icon.ico main.py
 ```
 After making relevant modifications to the spec file:
 ```python
